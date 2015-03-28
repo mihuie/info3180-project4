@@ -1,0 +1,18 @@
+<nav class="navbar navbar-default navbar-static-top">
+  <div class="container">
+  <div>
+    {% if current_user.is_authenticated() %}
+      <p class="navbar-text navbar-right">Signed in as {{ current_user.first_name }} 
+        <a class="btn btn-default" href="{{ url_for('logout') }}" role="button">Sign out</a>
+
+      </p>
+    {% else %}
+      <p class="navbar-text navbar-right">
+        <a class="btn btn-default" href="{{ url_for('login') }}" role="button">Sign in</a>
+        <a class="btn btn-default" href="{{ url_for('signup') }}" role="button">Sign up</a>
+      </p>
+    {% endif %}
+  </div>
+  </div>
+    
+</nav>

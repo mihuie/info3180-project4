@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+
+{% block js %}
+{% endblock %}
+
+{% block title %}
+Sign up
+{% endblock %}
+
+
+{% block main %}
+
+<h2><b>SIGN UP</h2>
+  
+<div class="form">
+  
+{% for message in get_flashed_messages() %}
+  <div class="flash">{{ message }}</div>
+{% endfor %}
+  <br>
+  
+  {% from "_form_helpers.html" import render_field %}
+  <form method="POST" action="{{ url_for('signup') }}" enctype="multipart/form-data">
+      {{ form.hidden_tag() }}
+    
+      {{ render_field(form.username) }}
+      {{ render_field(form.first_name) }}
+      {{ render_field(form.last_name) }}
+      {{ render_field(form.password) }}
+      {{ render_field(form.confirm) }}
+      <br><br>
+      <input type="Submit" />
+  </form>
+</div>
+  
+{% endblock %}
+
+

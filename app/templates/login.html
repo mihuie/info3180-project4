@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+
+{% block js %}
+{% endblock %}
+
+{% block title %}
+Sign in
+{% endblock %}
+
+{% block main %}
+
+<h2><b>SIGN IN</h2>
+  
+<div class="form">
+  
+{% for message in get_flashed_messages() %}
+  <div class="flash">{{ message }}</div>
+{% endfor %}
+  <br>
+  
+  {% from "_form_helpers.html" import render_field %}
+  <form method="POST" action="{{ url_for('login') }}" enctype="multipart/form-data">
+      {{ form.hidden_tag() }}
+    
+      {{ render_field(form.username) }}
+      {{ render_field(form.password) }}
+      <br><br>
+      <input type="Submit" />
+  </form>
+  
+  
+{% endblock %}
+
+
