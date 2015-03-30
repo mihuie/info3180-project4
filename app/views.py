@@ -93,9 +93,7 @@ def confirm(confirmcode):
         user = Profiles.query.filter_by(code = confirmcode).first()
         user.status = 'active'
         db.session.commit()
-        return 'Email validated. Your account has been activated'
-      
-      
+        return 'Email validated. Your account has been activated.'
 
 
 @app.route("/login/", methods=["GET", "POST"])
