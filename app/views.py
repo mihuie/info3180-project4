@@ -122,6 +122,16 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('login'))
+  
+@app.route('/profile/')
+def profile():
+    user = Profiles.query.filter_by(userid=current_user.get_id()).first_or_404()
+    return render_template('profile.html', user=user, filename = user.image)
+  
+@app.route('/profile/update/', methods =['GET','POST'])
+def update():
+    form = CreateUserForm()
+    return render_template('update.html', form=form)
 
 ###
 # The functions below should be applicable to all Flask apps.

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+
+{% block js %}
+{% endblock %}
+
+{% block title %}
+update
+{% endblock %}
+
+
+{% block main %}
+
+<h2><b>UPDATE</h2>
+  
+<div class="form">
+  
+{% for message in get_flashed_messages() %}
+  <div class="flash">{{ message }}</div>
+{% endfor %}
+  <br>
+<div class="row">
+  <div class="col-md-3  col-md-offset-1">  
+  {% from "_form_helpers.html" import render_field %}
+  <form class="form-horizontal" method="POST" action="{{ url_for('profile') }}" enctype="multipart/form-data">
+    <div class="form-group">
+      {{ form.hidden_tag() }}
+    
+<!--       {{ render_field(form.username, type="text", class="form-control", id="exampleInputName2", placeholder="username") }} -->
+<!--       {{ render_field(form.first_name, type="text", class="form-control", id="exampleInputName2", placeholder="Jane") }} -->
+<!--       {{ render_field(form.last_name, type="text", class="form-control", id="exampleInputName2", placeholder="Doe") }} -->
+<!--       {{ render_field(form.age, type="text", class="form-control", id="exampleInputName2", placeholder="age") }} -->
+      {{ render_field(form.email, type="email", class="form-control", id="inputEmail3", placeholder="someone@example.com") }}
+<!--       {{ render_field(form.gender)}} -->
+      {{ render_field(form.password, type="password", class="form-control", id="exampleInputPassword1", placeholder="Password") }}
+      {{ render_field(form.confirm, type="password", class="form-control", id="exampleInputPassword1", placeholder="Repeat Password") }}
+      {{ render_field(form.image ) }}
+    
+      <br>
+    </div>
+      <input type="Submit" class="btn btn-default"/>
+  </form>
+</div>
+  </div>  
+{% endblock %}

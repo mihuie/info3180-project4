@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block js %}
+{% endblock %}
+
+{% block title %}
+{{ user.username }}
+{% endblock %}
+
+{% block main %}
+
+<img src="{{ url_for('static', filename = filename) }}" alt="{{username}}">
+<p > Name: {{ user.firstname }} {{ user.lastname }} </p>
+  <br><br>
+<p>Created: {{ user.profile_add_on }}</p>
+<p>Username: {{ user.username }}
+  <br>ID: {{ user.userid }}
+  <br>Age: {{ user.age }}
+  <br>Sex: {{ user.gender }}
+  <br>Highest Score: {{ user.highscore }}
+  <br>TDollars: ${{ user.tdollars }}
+</p>
+
+{% endblock %}
