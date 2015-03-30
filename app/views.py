@@ -17,8 +17,22 @@ from app.models import Profiles
 from forms import CreateUserForm, LoginForm
 from flask import jsonify
 from flask import session
+from werkzeug import secure_filename
+
+import time
+from mailscript import * 
+
+UPLOAD_FOLDER = 'app/static/img/'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
+#my misc functions  
+def timeinfo():
+    return time.strftime("%a, %d %b %Y")
+  
+def createID():
+    return time.strftime("%y%j%H%M%S")
+  
 ###
 # Routing for your application.
 ###
@@ -38,11 +52,60 @@ def about():
 def load_user(id):
     return Profiles.query.get(id)
 
+@app.route('/signup/', methods=['POST','GET'])
+def signup():
+    form = CreateUserForm()
+    if request.method == 'POST' and form.validate():
+        #generate user id
+        userid = createID()
+        
+        #gets today's date
+        profile_add_on = timeinfo()
+        
+        #creating confirmaton code
+        ccode = form.username.data[:2]+userid
+        
+        extn = (form.image.data.filename).rsplit('.', 1)[1]
+        filename = secure_filename(userid +'.'+ extn)
+        form.image.data.save(UPLOAD_FOLDER + filename)
+        imagelocations = 'img/' + filename 
+        
+        # Saving profile to database and setting to inactive
+        user = Profiles(userid, (form.first_name.data).title(), (form.last_name.data).title(), \
+                        form.username.data, form.password.data, form.email.data, form.age.data, \
+                        form.gender.data, imagelocations, profile_add_on, 0, 0, "inactive", ccode)
+        
+        # sending confirmation email
+        sendcode((form.first_name.data).title(), form.email.data, ccode)
+
+        db.session.add(user)
+        db.session.commit()
+        return 'Please complete registration by verifying your email'
+#         return redirect(url_for('home'))
+    else:
+        return render_template('signup.html', form=form)   
+      
+@app.route('/signup/confirm/<confirmcode>/', methods=['GET'])
+def confirm(confirmcode):
+    if (Profiles.query.filter_by(code = confirmcode).first() is None):
+        return redirect(url_for('page_not_found'))
+    else:
+        user = Profiles.query.filter_by(code = confirmcode).first()
+        user.status = 'active'
+        db.session.commit()
+        return 'Email validated. Your account has been activated'
+      
+      
+
+
 @app.route("/login/", methods=["GET", "POST"])
 def login():
     form = LoginForm()
     if request.method == "POST" and form.validate():
         db_user = Profiles.query.filter(Profiles.username == form.username.data).first()
+        if (db_user.status == 'inactive'):
+          flash("Please confirm your email address")
+          return render_template("login.html", form=form)
         if (db_user is None):
           flash("username and password doesn't match")
           return render_template("login.html", form=form)
@@ -51,22 +114,11 @@ def login():
           flash("username and password doesn't match")
           return render_template("login.html", form=form)
         
-        user = load_user(db_user.id)
+        user = load_user(db_user.userid)
         login_user(user)
         return redirect(request.args.get("next") or url_for("home"))
     return render_template("login.html", form=form)
- 
-@app.route('/signup/', methods=['POST','GET'])
-def signup():
-    form = CreateUserForm()
-    if request.method == 'POST' and form.validate():
-        user = Profiles((form.first_name.data).title(), (form.last_name.data).title(), form.username.data, form.password.data)
-        db.session.add(user)
-        db.session.commit()
-        return redirect(url_for('home'))
-    else:
-        return render_template('signup.html', form=form)   
- 
+  
 @app.route("/logout")
 @login_required
 def logout():

@@ -18,17 +18,19 @@ Sign in
   <div class="flash">{{ message }}</div>
 {% endfor %}
   <br>
-  
+<div class="row">
+  <div class="col-md-3  col-md-offset-1">    
   {% from "_form_helpers.html" import render_field %}
   <form method="POST" action="{{ url_for('login') }}" enctype="multipart/form-data">
       {{ form.hidden_tag() }}
     
-      {{ render_field(form.username) }}
-      {{ render_field(form.password) }}
+      {{ render_field(form.username, type="text", class="form-control", id="exampleInputName2", placeholder="username") }}
+      {{ render_field(form.password, type="password", class="form-control", id="exampleInputPassword1", placeholder="Password") }}
       <br><br>
-      <input type="Submit" />
+      <input type="Submit" class="btn btn-default"/>
   </form>
-  
+  </div>
+  </div>
   
 {% endblock %}
 
