@@ -7,18 +7,33 @@
 {{ user.username }}
 {% endblock %}
 
+
 {% block main %}
 
-<img src="{{ url_for('static', filename = filename) }}" alt="{{username}}">
-<p > Name: {{ user.firstname }} {{ user.lastname }} </p>
-  <br><br>
-<p>Created: {{ user.profile_add_on }}</p>
-<p>Username: {{ user.username }}
-  <br>ID: {{ user.userid }}
-  <br>Age: {{ user.age }}
-  <br>Sex: {{ user.gender }}
-  <br>Highest Score: {{ user.highscore }}
-  <br>TDollars: ${{ user.tdollars }}
-</p>
+<div class="row">
+  <div class="col-md-2">
+    <ul class="nav nav-pills nav-stacked" >
+      <li role="presentation"><a href="{{ url_for('update') }}">Edit Profile</a></li>
+    </ul>
+  </div>
+  <div class="col-md-3">  
+    <img src="{{ url_for('static', filename = filename) }}" class="img-responsive" alt="{{username}}">
+  </div>
+  <div class="col-md-4"> 
+    <div class="profile"> <p > Name: {{ user.first_name }} {{ user.last_name }} </p> </div>
+    <br>
+    <div class="profile"> <p>Created: {{ user.profile_add_on }}</p> </div>
+    <br>
+    <div class="profile"> <p>Username: {{ user.username }}</p></div>
+    <br>
+    <div class="profile">
+      ID: {{ user.userid }}<br>
+      Age: {{ user.age }}<br>
+      Sex: {{ user.gender }}<br>
+      Highest Score: {{ user.highscore }}<br>
+      TDollars: ${{ user.tdollars }}<br>
+      <br>
+    </div>
+  </div>
 
 {% endblock %}

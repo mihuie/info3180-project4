@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block js %}
+{% endblock %}
+
+{% block title %}
+Profiles
+{% endblock %}
+
+{% block main %}
+
+<div class="profile">
+  <h1>List of Users </h1><br>
+
+  {% for user in users %}
+  <p>
+  <h3> <a href="{{ url_for('profile', userid = user.userid) }}"> {{ user.first_name }} {{ user.last_name }} </a> </h3>
+    <b>User ID:</b> {{ user.userid }} <br> 
+    <b>Username:</b> {{ user.username }}  <br> 
+    <b>Created:</b> {{user.profile_add_on }} <br> 
+  </p>
+  {% endfor %}
+</div>
+{% endblock %}

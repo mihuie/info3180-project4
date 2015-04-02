@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+
+{% block js %}
+{% endblock %}
+
+{% block title %}
+confirm
+{% endblock %}
+
+{% block main %}
+<br><br><br>
+<div class="row">
+  <div class="col-md-3"></div>
+    <div class="col-md-6">
+      <br>
+      <p class="text-primary"> <a class="text-primary" href="{{ url_for('login') }}">
+        Thank you for validating your email. Your account has been activated. Login here</a></p>
+    </div>
+  <div class="col-md-3"></div>
+</div>
+
+
+{% endblock %}
+
+

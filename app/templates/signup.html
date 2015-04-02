@@ -11,35 +11,38 @@ Sign up
 
 {% block main %}
 
-<h2><b>SIGN UP</h2>
-  
-<div class="form">
-  
-{% for message in get_flashed_messages() %}
-  <div class="flash">{{ message }}</div>
-{% endfor %}
-  <br>
 <div class="row">
-  <div class="col-md-3  col-md-offset-1">  
-  {% from "_form_helpers.html" import render_field %}
-  <form class="form-horizontal" method="POST" action="{{ url_for('signup') }}" enctype="multipart/form-data">
-    <div class="form-group">
-      {{ form.hidden_tag() }}
-    
-      {{ render_field(form.username, type="text", class="form-control", id="exampleInputName2", placeholder="username") }}
-      {{ render_field(form.first_name, type="text", class="form-control", id="exampleInputName2", placeholder="Jane") }}
-      {{ render_field(form.last_name, type="text", class="form-control", id="exampleInputName2", placeholder="Doe") }}
-      {{ render_field(form.age, type="text", class="form-control", id="exampleInputName2", placeholder="age") }}
-      {{ render_field(form.email, type="email", class="form-control", id="inputEmail3", placeholder="someone@example.com") }}
-      {{ render_field(form.gender)}}
-      {{ render_field(form.password, type="password", class="form-control", id="exampleInputPassword1", placeholder="Password") }}
-      {{ render_field(form.confirm, type="password", class="form-control", id="exampleInputPassword1", placeholder="Repeat Password") }}
-      {{ render_field(form.image ) }}
-    
-      <br>
-    </div>
-      <input type="Submit" class="btn btn-default"/>
-  </form>
+  <div class="col-md-4"></div>
+  <div class="col-md-4">
+    {% from "_form_helpers.html" import render_field %}
+    <form method="POST" action="{{ url_for('signup') }}" enctype="multipart/form-data">
+      <div class="form-group">
+        <label><h1>Sign up <small>jsGames</small></h1></label>
+        <hr>
+        {% for message in get_flashed_messages() %}
+          <div class="flash text-success">{{ message }}</div>
+        {% endfor %} 
+        <br>
+        
+        {{ form.hidden_tag() }}
+        {{ render_field(form.email, type="email", class="form-control", id="inputEmail3", placeholder="someone@example.com") }}
+        {{ render_field(form.password, type="password", class="form-control", id="exampleInputPassword1", placeholder="Password") }}
+        {{ render_field(form.confirm, type="password", class="form-control", id="exampleInputPassword1", placeholder="Repeat Password") }}
+        <input type="Submit" class="btn btn-primary pull-right"/>
+      </div>
+    </form>
+  </div>
+  <div class="col-md-4"></div>
 </div>
-  </div>  
+  
+<div class="row">
+  <div class="col-md-4"></div>
+    <div class="col-md-4">
+      <br>
+      <p class="text-primary pull-right">Already have an account? <a class="text-primary" href="{{ url_for('login') }}">Login here</a></p>
+    </div>
+  <div class="col-md-4"></div>
+</div>
+
+  
 {% endblock %}

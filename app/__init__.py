@@ -10,7 +10,11 @@ db = SQLAlchemy(app)
 
 # login manager setup
 login_man = LoginManager()
+login_man.login_view = 'login'
+login_man.login_message = ''
 login_man.init_app(app)
+
+
 
 from app import views, models
 

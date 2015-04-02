@@ -14,30 +14,36 @@ class Profiles(db.Model):
     image = db.Column(db.String(40), unique=False)
     tdollars = db.Column(db.Integer, unique=False)
     email = db.Column(db.String(50)) 
-    status = db.Column(db.String(15)) 
+    active = db.Column(db.Boolean, default=False) 
     code = db.Column(db.String(30))
+    initial = db.Column(db.Boolean, default=True) 
     
-    def __init__(self, userid, first_name, last_name, username, password, email, age, gender, image, profile_add_on, highscore, tdollars, status, code):
-        self.username = username
-        self.first_name = first_name
-        self.last_name = last_name
+    def __init__(self, userid, password, email, profile_add_on, code, highscore, tdollars):
+        self.userid = userid
         self.password = password
-        self.age = age
         self.profile_add_on = profile_add_on
+        self.email = email
+        self.code = code
         self.highscore = highscore
         self.tdollars = tdollars
-        self.userid = userid
-        self.gender = gender
-        self.image = image
-        self.email = email
-        self.status = status
-        self.code = code
+     
+#     def update(self, username, first_name, last_name, password, age, gender):#, image):
+#         self.username = username
+#         self.first_name = first_name
+#         self.last_name = last_name
+#         self.password = password
+#         self.age = age
+#         self.gender = gender
+# #         self.image = image
+    
+    def is_initial(self):
+        return self.initial
         
     def is_authenticated(self):
         return True
 
     def is_active(self):
-        return True
+        return self.active
 
     def is_anonymous(self):
         return False
