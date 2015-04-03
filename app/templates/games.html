@@ -14,6 +14,25 @@ Games
 
 
 <div class="row">
+  <div class="col-sm-6 col-md-2"></div>
+  <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      
+      <div align="center" class="embed-responsive embed-responsive-16by9">
+        <video width="340" height="260" autoplay loop class="embed-responsive-item">
+            <source src=/static/img/platformer.webm type=video/mp4>
+        </video>
+      </div>
+        
+      <div class="caption">
+        <h3>Platformer</h3>
+        <p>Platformer</p>
+        <p><a href="{{ url_for('game', gameid = 1) }}" class="btn btn-primary" role="button">PLAY NOW!</a> 
+      </div>
+    </div>
+  </div>
+    
+
   <div class="col-sm-6 col-md-4">
     <div class="thumbnail">
       
@@ -21,7 +40,7 @@ Games
         <video width="340" height="260" autoplay loop class="embed-responsive-item">
             <source src=/static/img/spinv.webm type=video/mp4>
         </video>
-      </div
+      </div>
         
       <div class="caption">
         <h3>Space Invaders</h3>
@@ -31,8 +50,8 @@ Games
         <p><a href="{{ url_for('game', gameid = 2) }}" class="btn btn-primary" role="button">PLAY NOW!</a> 
       </div>
     </div>
-  </div>
-  
+    
+</div>  
 
 
 

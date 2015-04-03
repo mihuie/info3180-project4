@@ -34,7 +34,7 @@ class Profiles(db.Model):
 #         self.password = password
 #         self.age = age
 #         self.gender = gender
-# #         self.image = image
+#         self.image = image
     
     def is_initial(self):
         return self.initial

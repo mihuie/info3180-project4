@@ -22,7 +22,10 @@ class EditForm(Form):
     gender = SelectField('Gender', choices=[('male', 'Male'), ('Female','Female')])    
     image = FileField('Profile pic', validators=[Optional()])
     email = EmailField('Email Address', [validators.DataRequired(), validators.Email()])
-#     password = PasswordField('New Password', validators=[Length(min=6), validators.EqualTo('confirm', message='Passwords must match')])
-#     confirm = PasswordField('Repeat Password')
-#     current = PasswordField('Current Password')
+    
+class changePWForm(Form):
+    current = PasswordField('Current Password', validators.DataRequired())
+    password = PasswordField('New Password', validators=[Length(min=6), validators.EqualTo('confirm', message='Passwords must match')])
+    confirm = PasswordField('Repeat Password')
+    
     
