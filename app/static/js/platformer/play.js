@@ -11,6 +11,8 @@ game.PlayScreen = me.ScreenObject.extend({
       
         // reset the score
         game.data.score = 0;
+      
+        game.data.health = 100;
 
         // add our HUD to the game world
         this.HUD = new game.HUD.Container();

@@ -141,7 +141,7 @@ game.PlayerEntity = me.Entity.extend( {
                         game.data.score -= 250;
                         }
                         //
-                        if (game.data.health === 0){
+                        if (game.data.health === 25){
                             me.game.world.removeChild(this);
                             me.state.change(me.state.GAMEOVER);
                         }

@@ -14,13 +14,14 @@ from flask.ext.login import login_user, logout_user, current_user, login_require
 
 from flask import render_template, request, redirect, url_for, flash
 from app.models import Profiles
-from forms import CreateUserForm, LoginForm, EditForm
+from forms import CreateUserForm, LoginForm, EditForm, changePWForm, photoForm
 from flask import jsonify
 from flask import session
 from werkzeug import secure_filename
 
 import time
 from mailscript import * 
+import shutil
 
 UPLOAD_FOLDER = 'app/static/img/'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -40,7 +41,7 @@ def createID():
 @app.route('/')
 def home():
     """Render website's home page."""
-    return render_template('home.html')
+    return render_template('index.html')
 
 
 @app.route('/about/')
@@ -65,9 +66,13 @@ def signup():
         #creating confirmaton code
         ccode = form.email.data[:3]+userid
         
+        #creating a default user photo 
+        defaultimg = 'img/'+userid+'.png'
+        shutil.copyfile(UPLOAD_FOLDER+'noprofileimage.png', UPLOAD_FOLDER+userid+'.png')
+        
         # Saving profile to database and setting to inactive
         user = Profiles(userid=userid, password=form.password.data, email=form.email.data, \
-                        profile_add_on=profile_add_on, code=ccode, highscore=0, tdollars=0)
+                        profile_add_on=profile_add_on, code=ccode, highscore=0, tdollars=0, image=defaultimg)
               
         db.session.add(user)
         db.session.commit()
@@ -137,28 +142,42 @@ def profile():
 @login_required
 def update():
     user = Profiles.query.filter_by(userid=current_user.get_id()).first_or_404()
-    form = EditForm(obj=user)
-    form.populate_obj(user)
-    
-    if request.method == "POST" and form.validate():
-      
-#       if form.image.data.filename:
-      extn = (form.image.data.filename).rsplit('.', 1)[1]#grabbing file extension
+    eform = EditForm(obj=user)
+    eform.populate_obj(user)
+    pform = changePWForm()
+    picform = photoForm()
+        
+    if request.method == "POST" and picform.validate():
+      extn = (picform.image.data.filename).rsplit('.', 1)[1]#grabbing file extension
       filename = secure_filename(user.userid +'.'+ extn)#renaming pic as user id
-      form.image.data.save(UPLOAD_FOLDER + filename)
-      
+      picform.image.data.save(UPLOAD_FOLDER + filename)
       user.image = 'img/' + filename
-      user.username = form.username.data
-      user.first_name = (form.first_name.data).title()
-      user.last_name = (form.last_name.data).title()
-      user.age = form.age.data
-      user.gender = form.gender.data      
+      db.session.commit()
+      flash('Photo updated')
+      return redirect(url_for('update'))
+      
+    if request.method == "POST" and eform.validate():  
+      user.username = eform.username.data
+      user.first_name = (eform.first_name.data).title()
+      user.last_name = (eform.last_name.data).title()
+      user.age = eform.age.data
+      user.gender = eform.gender.data      
       user.initial = False
       db.session.commit()
       flash('Profile updated')
-      return redirect(url_for('profile'))
+      return redirect(url_for('update'))  
     
-    return render_template('update.html', form=form)
+    if request.method == "POST" and pform.validate(): 
+      if user.password == pform.current.data:
+        user.password = pform.password.data
+        db.session.commit()
+        flash('Password Changed')
+        return redirect(url_for('update'))
+      else:
+        flash('Current password incorrect')
+        return redirect(url_for('update'))
+    
+    return render_template('update.html', eform=eform, pform=pform, picform=picform)
   
   
 @app.route('/profiles/')
@@ -181,6 +200,7 @@ def game(gameid):
     elif gameid == '2':
        return render_template('spaceinv.html')
       
+
 
 ###
 # The functions below should be applicable to all Flask apps.

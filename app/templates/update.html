@@ -11,30 +11,61 @@ Update Profile
 
 {% block main %}
 
+<div class="row">
+  <div class="col-md-4"></div>
+  <div class="col-md-4">    
+  <label><h1>Profile Data <small>jsGames</small></h1></label>
+  {% for message in get_flashed_messages() %}
+    <div class="flash"><p style="padding: 0.5cm" class="bg-info">{{ message }}</p></div>
+  {% endfor %} 
+  {% from "_form_helpers.html" import render_field %}
+  <form name="picform" method="POST" action="{{ url_for('update') }}" enctype="multipart/form-data">
+      <hr>
+      <br>
+      {{ picform.hidden_tag() }}
+      {{ render_field(picform.image) }}<br>
+      <input type="Submit" class="btn btn-primary pull-right" value="Upload"/>
+
+  </form>
+  <div class="col-md-4"></div>
+  </div>  </div>
 
 <div class="row">
   <div class="col-md-4"></div>
   <div class="col-md-4">    
   {% from "_form_helpers.html" import render_field %}
-  <form method="POST" action="{{ url_for('update') }}" enctype="multipart/form-data">
-      <label><h1>Profile Data <small>jsGames</small></h1></label>
+  <form name="eform" method="POST" action="{{ url_for('update') }}" enctype="multipart/form-data">
       <hr>
-      {% for message in get_flashed_messages() %}
-        <div class="flash text-success">{{ message }}</div>
-      {% endfor %} 
       <br>
-      {{ form.hidden_tag() }}
-      {{ render_field(form.email, type="email", class="form-control", id="inputEmail3", placeholder="someone@example.com") }}
-      {{ render_field(form.username, type="text", class="form-control", id="exampleInputName2", placeholder="username") }}
-      {{ render_field(form.first_name, type="text", class="form-control", id="exampleInputName2", placeholder="Jane") }}
-      {{ render_field(form.last_name, type="text", class="form-control", id="exampleInputName2", placeholder="Doe") }}
-      {{ render_field(form.age, type="text", class="form-control", id="exampleInputName2", placeholder="age") }} 
-      {{ render_field(form.gender)}} 
-      {{ render_field(form.image ) }}
-      <input type="Submit" class="btn btn-primary pull-right"/>
+      {{ eform.hidden_tag() }}
+      {{ render_field(eform.email, type="email", class="form-control", id="inputEmail3", placeholder="someone@example.com") }}
+      {{ render_field(eform.username, type="text", class="form-control", id="exampleInputName2", placeholder="username") }}
+      {{ render_field(eform.first_name, type="text", class="form-control", id="exampleInputName2", placeholder="Jane") }}
+      {{ render_field(eform.last_name, type="text", class="form-control", id="exampleInputName2", placeholder="Doe") }}
+      {{ render_field(eform.age, type="text", class="form-control", id="exampleInputName2", placeholder="age") }} 
+      {{ render_field(eform.gender)}} 
+
+      <input type="Submit" class="btn btn-primary pull-right" value="Update Profile"/>
    
   </form>
   <div class="col-md-4"></div>
-</div>  
+  </div> </div> 
   
+<div class="row">
+  <div class="col-md-4"></div>
+  <div class="col-md-4">    
+  {% from "_form_helpers.html" import render_field %}
+  <form name="pform" method="POST" action="{{ url_for('update') }}" enctype="multipart/form-data">
+      <hr>
+      <br>
+      {{ pform.hidden_tag() }}
+      {{ render_field(pform.current, type="password", class="form-control", id="exampleInputPassword3", placeholder="Password") }}<br>
+      {{ render_field(pform.password, type="password", class="form-control", id="exampleInputPassword3", placeholder="Password") }}
+      {{ render_field(pform.confirm, type="password", class="form-control", id="exampleInputPassword3", placeholder="Password") }}  
+      <input type="Submit" class="btn btn-primary pull-right" value="Update Password"/>
+
+  </form>
+  <div class="col-md-4"></div>
+  </div>  </div>
+
 {% endblock %}

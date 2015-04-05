@@ -20,12 +20,12 @@ class EditForm(Form):
     last_name = StringField('Last Name', validators=[Length(min=2, max=25)])
     age = IntegerField('Age', validators=[NumberRange(min=16, max=99)])
     gender = SelectField('Gender', choices=[('male', 'Male'), ('Female','Female')])    
-    image = FileField('Profile pic', validators=[Optional()])
     email = EmailField('Email Address', [validators.DataRequired(), validators.Email()])
     
 class changePWForm(Form):
-    current = PasswordField('Current Password', validators.DataRequired())
+    current = PasswordField('Current Password', [validators.DataRequired()])
     password = PasswordField('New Password', validators=[Length(min=6), validators.EqualTo('confirm', message='Passwords must match')])
     confirm = PasswordField('Repeat Password')
-    
-    
+
+class photoForm(Form):
+    image = FileField('Profile Picture', [validators.DataRequired()])   
