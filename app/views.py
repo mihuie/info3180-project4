@@ -41,7 +41,7 @@ def createID():
 @app.route('/')
 def home():
     """Render website's home page."""
-    return render_template('index.html')
+    return render_template('games.html')
 
 
 @app.route('/about/')
@@ -133,7 +133,6 @@ def logout():
 def profile():
     user = Profiles.query.filter_by(userid=current_user.get_id()).first_or_404()
     if (user.is_initial()):
-#       flash('Update your profile first')
       return redirect(url_for("update"))
     else:
       return render_template('profile.html', user=user, filename = user.image)
@@ -145,8 +144,14 @@ def update():
     eform = EditForm(obj=user)
     eform.populate_obj(user)
     pform = changePWForm()
-    picform = photoForm()
-        
+    picform = photoForm()    
+    return render_template('update.html', eform=eform, pform=pform, picform=picform)
+  
+@app.route('/uploadphoto/', methods =['GET','POST'])
+@login_required
+def uploadphoto():
+    user = Profiles.query.filter_by(userid=current_user.get_id()).first_or_404()
+    picform = photoForm()        
     if request.method == "POST" and picform.validate():
       extn = (picform.image.data.filename).rsplit('.', 1)[1]#grabbing file extension
       filename = secure_filename(user.userid +'.'+ extn)#renaming pic as user id
@@ -155,7 +160,13 @@ def update():
       db.session.commit()
       flash('Photo updated')
       return redirect(url_for('update'))
-      
+    return render_template('update.html', eform=EditForm(), pform=changePWForm(), picform=picform)
+
+@app.route('/editprofile/', methods =['GET','POST'])
+@login_required
+def editprofile():
+    user = Profiles.query.filter_by(userid=current_user.get_id()).first_or_404()
+    eform = EditForm()        
     if request.method == "POST" and eform.validate():  
       user.username = eform.username.data
       user.first_name = (eform.first_name.data).title()
@@ -166,7 +177,13 @@ def update():
       db.session.commit()
       flash('Profile updated')
       return redirect(url_for('update'))  
-    
+    return render_template('update.html', eform=eform, pform=changePWForm(), picform=photoForm())
+  
+@app.route('/changepassword/', methods =['GET','POST'])
+@login_required
+def changepassword():
+    user = Profiles.query.filter_by(userid=current_user.get_id()).first_or_404()
+    pform = changePWForm()        
     if request.method == "POST" and pform.validate(): 
       if user.password == pform.current.data:
         user.password = pform.password.data
@@ -176,9 +193,8 @@ def update():
       else:
         flash('Current password incorrect')
         return redirect(url_for('update'))
-    
-    return render_template('update.html', eform=eform, pform=pform, picform=picform)
-  
+    return render_template('update.html', eform=EditForm(), pform=pform, picform=photoForm())
+                           
   
 @app.route('/profiles/')
 @login_required

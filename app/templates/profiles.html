@@ -8,17 +8,26 @@ Profiles
 {% endblock %}
 
 {% block main %}
+<h1 class="text-center">Users </h1><br>
+  <div class="row">
+    {% for user in users %}
+    <div class="col-sm-6 col-md-3">
+      <div class="thumbnail">
+        <img src="{{ url_for('static', filename = user.image) }}" class="img-responsive img-thumbnail" style="max-height: 240px" alt="{{username}}">
+        <div class="caption">
+          <h4> <a href="{{ url_for('profile', userid = user.userid) }}"> {{ user.username }}</a> </h3>
+          <p >
+            <b>User ID:</b> {{ user.userid }} <br> 
+            <b>Username:</b> {{ user.username }}  <br> 
+            <b>Created:</b> {{user.profile_add_on }} <br> 
+            <b>Highscore:</b> {{user.highscore }} <br
+          </p>
 
-<div class="profile">
-  <h1>List of Users </h1><br>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
 
-  {% for user in users %}
-  <p>
-  <h3> <a href="{{ url_for('profile', userid = user.userid) }}"> {{ user.first_name }} {{ user.last_name }} </a> </h3>
-    <b>User ID:</b> {{ user.userid }} <br> 
-    <b>Username:</b> {{ user.username }}  <br> 
-    <b>Created:</b> {{user.profile_add_on }} <br> 
-  </p>
-  {% endfor %}
-</div>
+
 {% endblock %}

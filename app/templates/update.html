@@ -19,7 +19,7 @@ Update Profile
     <div class="flash"><p style="padding: 0.5cm" class="bg-info">{{ message }}</p></div>
   {% endfor %} 
   {% from "_form_helpers.html" import render_field %}
-  <form name="picform" method="POST" action="{{ url_for('update') }}" enctype="multipart/form-data">
+  <form name="picform" method="POST" action="{{ url_for('uploadphoto') }}" enctype="multipart/form-data">
       <hr>
       <br>
       {{ picform.hidden_tag() }}
@@ -34,7 +34,7 @@ Update Profile
   <div class="col-md-4"></div>
   <div class="col-md-4">    
   {% from "_form_helpers.html" import render_field %}
-  <form name="eform" method="POST" action="{{ url_for('update') }}" enctype="multipart/form-data">
+  <form name="eform" method="POST" action="{{ url_for('editprofile') }}" enctype="multipart/form-data">
       <hr>
       <br>
       {{ eform.hidden_tag() }}
@@ -55,7 +55,7 @@ Update Profile
   <div class="col-md-4"></div>
   <div class="col-md-4">    
   {% from "_form_helpers.html" import render_field %}
-  <form name="pform" method="POST" action="{{ url_for('update') }}" enctype="multipart/form-data">
+  <form name="pform" method="POST" action="{{ url_for('changepassword') }}" enctype="multipart/form-data">
       <hr>
       <br>
       {{ pform.hidden_tag() }}
