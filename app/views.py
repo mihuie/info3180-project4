@@ -216,7 +216,12 @@ def game(gameid):
     elif gameid == '2':
        return render_template('spaceinv.html')
       
-
+@app.route('/game/highscore/', methods=['POST'])
+@login_required
+def highscore():
+    user = Profiles.query.filter_by(userid=current_user.get_id()).first_or_404()
+    if request.method == 'POST':  
+      return jsonify(highscore = user.highscore)
 
 ###
 # The functions below should be applicable to all Flask apps.
