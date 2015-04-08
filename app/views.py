@@ -41,7 +41,8 @@ def createID():
 @app.route('/')
 def home():
     """Render website's home page."""
-    return render_template('games.html')
+    return render_template('home.html')
+#     return render_template('games.html')
 
 
 @app.route('/about/')
@@ -72,7 +73,7 @@ def signup():
         
         # Saving profile to database and setting to inactive
         user = Profiles(userid=userid, password=form.password.data, email=form.email.data, \
-                        profile_add_on=profile_add_on, code=ccode, highscore=0, tdollars=0, image=defaultimg)
+                        profile_add_on=profile_add_on, code=ccode, highscore1=0, highscore2=0, tdollars=0, image=defaultimg)
               
         db.session.add(user)
         db.session.commit()
@@ -165,7 +166,7 @@ def uploadphoto():
 @app.route('/editprofile/', methods =['GET','POST'])
 @login_required
 def editprofile():
-    user = Profiles.query.filter_by(userid=current_user.get_id()).first_or_404()
+    user = Profiles.query.filter_by(userid=current_user.get_id()).first()
     eform = EditForm()        
     if request.method == "POST" and eform.validate():  
       user.username = eform.username.data
@@ -182,7 +183,7 @@ def editprofile():
 @app.route('/changepassword/', methods =['GET','POST'])
 @login_required
 def changepassword():
-    user = Profiles.query.filter_by(userid=current_user.get_id()).first_or_404()
+    user = Profiles.query.filter_by(userid=current_user.get_id()).first()
     pform = changePWForm()        
     if request.method == "POST" and pform.validate(): 
       if user.password == pform.current.data:
@@ -215,14 +216,34 @@ def game(gameid):
        return render_template('platformer.html')
     elif gameid == '2':
        return render_template('spaceinv.html')
-      
+
+
 @app.route('/game/highscore/', methods=['POST'])
 @login_required
 def highscore():
-    user = Profiles.query.filter_by(userid=current_user.get_id()).first_or_404()
-    if request.method == 'POST':  
-      return jsonify(highscore = user.highscore)
-
+    user = Profiles.query.filter_by(userid=current_user.get_id()).first()
+    if request.method == 'POST': 
+      highscore = {'platformer': user.highscore1, 'spaceinvader' : user.highscore2} 
+      return jsonify(highscore)
+    
+@app.route('/update_highscore')
+@login_required
+def update_highscore():
+    user = Profiles.query.filter_by(userid=current_user.get_id()).first()
+#     import pdb; pdb.set_trace()
+    a = request.args.get('platformer', 0, type=int)
+    b = request.args.get('spaceinvader', 0, type=int)
+    
+    if (user.highscore1 < a):
+      user.highscore1 = a
+      db.session.commit()
+    if (user.highscore2 < b):
+      user.highscore2 = b
+      db.session.commit()
+    
+    highscore = {'platformer': user.highscore1, 'spaceinvader' : user.highscore2} 
+    return jsonify(highscore)
+  
 ###
 # The functions below should be applicable to all Flask apps.
 ###

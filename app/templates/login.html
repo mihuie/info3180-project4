@@ -12,8 +12,8 @@ Login
 
   
 <div class="row">
-  <div class="col-md-4"></div>
-    <div class="col-md-4">    
+  <div class="col-sm-4"></div>
+    <div class="col-sm-4">    
       
       {% from "_form_helpers.html" import render_field %}
       <form method="POST" action="{{ url_for('login') }}" enctype="multipart/form-data">
@@ -33,16 +33,16 @@ Login
           <input type="Submit" class="btn btn-primary pull-right"/>
       </form>
     </div>
-  <div class="col-md-4"></div>
+  <div class="col-sm-4"></div>
 </div>
 
 <div class="row">
-  <div class="col-md-4"></div>
-    <div class="col-md-4">
+  <div class="col-sm-4"></div>
+    <div class="col-sm-4">
       <br>
       <p class="text-primary pull-right">Need an account? <a class="text-primary" href="{{ url_for('signup') }}">Sign up here</a></p>
     </div>
-  <div class="col-md-4"></div>
+  <div class="col-sm-4"></div>
 </div>
 
 

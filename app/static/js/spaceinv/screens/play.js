@@ -3,6 +3,9 @@ game.PlayScreen = me.ScreenObject.extend({
         if (y >= this.player.pos.y) {
             me.state.change(me.state.GAMEOVER);
         }
+        if (localStorage.getItem('spaceinvader_highscore') < game.data.score) {
+            localStorage.spaceinvader_highscore = ~~game.data.score;
+        }
     },
     
     

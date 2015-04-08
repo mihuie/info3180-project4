@@ -10,7 +10,8 @@ class Profiles(db.Model):
     age = db.Column(db.Integer, unique=False)
     profile_add_on = db.Column(db.String(20), unique=False)    
     password = db.Column(db.String(16), unique=False)
-    highscore = db.Column(db.Integer, unique=False)
+    highscore1 = db.Column(db.Integer, unique=False)
+    highscore2 = db.Column(db.Integer, unique=False)
     image = db.Column(db.String(40), unique=False)
     tdollars = db.Column(db.Integer, unique=False)
     email = db.Column(db.String(50), unique=True) 
@@ -18,13 +19,14 @@ class Profiles(db.Model):
     code = db.Column(db.String(30), unique=False)
     initial = db.Column(db.Boolean, default=True) 
     
-    def __init__(self, userid, password, email, profile_add_on, code, highscore, tdollars, image):
+    def __init__(self, userid, password, email, profile_add_on, code, highscore1, highscore2, tdollars, image):
         self.userid = userid
         self.password = password
         self.profile_add_on = profile_add_on
         self.email = email
         self.code = code
-        self.highscore = highscore
+        self.highscore1 = highscore1
+        self.highscore2 = highscore2
         self.tdollars = tdollars
         self.image = image
      
