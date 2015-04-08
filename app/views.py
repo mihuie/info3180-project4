@@ -22,6 +22,7 @@ from werkzeug import secure_filename
 import time
 from mailscript import * 
 import shutil
+import json
 
 UPLOAD_FOLDER = 'app/static/img/'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -41,7 +42,7 @@ def createID():
 @app.route('/')
 def home():
     """Render website's home page."""
-    return render_template('home.html')
+    return render_template('games.html')
 #     return render_template('games.html')
 
 
@@ -217,32 +218,26 @@ def game(gameid):
     elif gameid == '2':
        return render_template('spaceinv.html')
 
+ 
+#       import pdb; pdb.set_trace()
 
-@app.route('/game/highscore/', methods=['POST'])
+@app.route('/game/highscore/', methods=['POST','GET'])
 @login_required
 def highscore():
     user = Profiles.query.filter_by(userid=current_user.get_id()).first()
     if request.method == 'POST': 
-      highscore = {'platformer': user.highscore1, 'spaceinvader' : user.highscore2} 
+      retr_json = json.loads(request.get_data())
+      
+      if (user.highscore1 < retr_json["platformer"]):
+        user.highscore1 = retr_json["platformer"]
+        db.session.commit()
+      if (user.highscore2 < retr_json["spaceinvader"]):
+        user.highscore2 = retr_json["spaceinvader"]
+        db.session.commit()
+
+      highscore = {"platformer": user.highscore1, "spaceinvader" : user.highscore2} 
       return jsonify(highscore)
     
-@app.route('/update_highscore')
-@login_required
-def update_highscore():
-    user = Profiles.query.filter_by(userid=current_user.get_id()).first()
-#     import pdb; pdb.set_trace()
-    a = request.args.get('platformer', 0, type=int)
-    b = request.args.get('spaceinvader', 0, type=int)
-    
-    if (user.highscore1 < a):
-      user.highscore1 = a
-      db.session.commit()
-    if (user.highscore2 < b):
-      user.highscore2 = b
-      db.session.commit()
-    
-    highscore = {'platformer': user.highscore1, 'spaceinvader' : user.highscore2} 
-    return jsonify(highscore)
   
 ###
 # The functions below should be applicable to all Flask apps.

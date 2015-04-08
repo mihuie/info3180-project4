@@ -51,6 +51,8 @@ var game = {
         me.state.set(me.state.PLAY, this.playScreen);
         me.state.set(me.state.READY, this.nextScreen)
         me.state.set(me.state.GAMEOVER, this.endScreen);
+      
+        me.state.transition("fade", "#000000", 250);
 
         // add our player entity in the entity pool
         me.pool.register("player", game.Player);

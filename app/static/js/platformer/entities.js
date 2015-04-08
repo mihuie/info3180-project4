@@ -80,6 +80,7 @@ game.PlayerEntity = me.Entity.extend( {
         // check if play off screen and ends game
         if (!this.inViewport && (this.pos.y > me.video.renderer.getHeight())) {
             // if yes reset the game
+            updatescore();
             me.game.world.removeChild(this);
             me.state.change(me.state.GAMEOVER);
             return true;
@@ -184,6 +185,11 @@ game.CoinEntity = me.CollectableEntity.extend( {
       
         //each coin values 250
         game.data.score += 250;
+        
+        //update 
+        if (localStorage.getItem('platformer_highscore') < game.data.score) {
+            localStorage.platformer_highscore = ~~game.data.score;
+        }
       
         //avoid further collision and delete it
         this.body.setCollisionMask(me.collision.types.NO_OBJECT);

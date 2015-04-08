@@ -17,11 +17,16 @@ game.ENDScreen = me.ScreenObject.extend({
       },
  
       draw : function (renderer) {
-        this.font.draw(renderer, "GAME OVER", 150, 240);
+        this.font.draw(renderer, "GAME OVER", 180, 200);
+        this.font.draw(renderer, "SCORE: ", 180, 250);
+        this.font.draw(renderer, ~~game.data.score, 380, 250);
+        this.font.draw(renderer, "HIGHSCORE: ", 100, 300);
+        this.font.draw(renderer, localStorage.getItem('platformer_highscore'), 420, 300);
       },
 
     })), 2);
- 
+     
+    
     // change to play state on press Enter or click/tap
     me.input.bindKey(me.input.KEY.ENTER, "enter", true);
     me.input.bindPointer(me.input.mouse.LEFT, me.input.KEY.ENTER);
@@ -29,6 +34,7 @@ game.ENDScreen = me.ScreenObject.extend({
       if (action === "enter") {
         // play something on tap / enter
         // this will unlock audio on mobile devices
+        updatescore();
         me.state.change(me.state.MENU);
       }
     });

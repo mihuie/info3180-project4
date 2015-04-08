@@ -28,6 +28,7 @@
     <script type="text/javascript" src="/static/js/spaceinv/player.js"></script>
     <script type="text/javascript" src="/static/js/spaceinv/enemy_manager.js"></script>
     <script type="text/javascript" src="/static/js/spaceinv/HUD.js"></script>
+    <script type="text/javascript" src="/static/js/highscore.js"></script>
 
     <script type="text/javascript">
       
@@ -38,39 +39,15 @@
       
       
         $(document).ready(function(){
-          // initating local storage
-          localStorage.spaceinvader_highscore = 0;
-          localStorage.platformer_highscore = 0;
+          
+//           // initating local storage
+//           localStorage.spaceinvader_highscore = 0;
+//           localStorage.platformer_highscore = 0;
+          
+          updatescore();//passing score between server and game
           
         });
         
-//        function updatescore(){
-//          $.getJSON('/update_highscore',{
-//               platformer: localStorage.getItem('platformer_highscore'),
-//               spaceinvader: localStorage.getItem('spaceinvader_highscore')
-//            },
-//            function(result) {
-//               localStorage.spaceinvader_highscore = result.spaceinvader;
-//               localStorage.platformer_highscore = result.platformer;
-//            }        
-//          );
-//        };
-        function updatescore(){
-            $.ajax({
-            type: 'POST',
-            contentType: 'application/json',
-            url: '/game/highscore/',
-            dataType : 'json',
-            data: {
-              platformer : localStorage.getItem('platformer_highscore'), 
-              spaceinvader : localStorage.getItem('spaceinvader_highscore')
-            },
-            success : function(result) {
-              localStorage.spaceinvader_highscore = result.spaceinvader;
-              localStorage.platformer_highscore = result.platformer;
-            }
-          });
-        };
     </script>    
 </body>
 </html>

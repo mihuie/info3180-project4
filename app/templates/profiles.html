@@ -15,11 +15,13 @@ Profiles
       <div class="thumbnail">
         <img src="{{ url_for('static', filename = user.image) }}" class="img-responsive img-thumbnail" style="max-height: 240px" alt="{{username}}">
         <div class="caption">
-          <h4> <a href="{{ url_for('profile', userid = user.userid) }}"> {{ user.username }}</a> </h3>
+          <h3> {{ user.username }} </h3>
           <p >
-            <b>User ID:</b> {{ user.userid }} <br> 
-            <b>Created:</b> {{user.profile_add_on }} <br> 
-            <b>Highscore:</b> {{user.highscore }} <br>
+            <b>User ID:</b> <span class="pull-right">{{ user.userid }} </span><br> 
+            <b>Created:</b> <span class="pull-right">{{user.profile_add_on }} </span><br> 
+
+          <pre><b>Platformer:</b><span class="pull-right">{{user.highscore1 }} </span><br></pre>
+          <pre><b>Space Invaders:</b> <span class="pull-right">{{user.highscore2 }} </span><br></pre>
           </p>
 
         </div>

@@ -17,23 +17,31 @@ game.ENDScreen = me.ScreenObject.extend({
       },
  
       draw : function (renderer) {
-        this.font.draw(renderer, "GAME OVER", 180, 240);
+        this.font.draw(renderer, "GAME OVER", 180, 200);
+        this.font.draw(renderer, "SCORE: ", 180, 250);
+        this.font.draw(renderer, ~~game.data.score, 380, 250);
         this.font.draw(renderer, "HIGHSCORE: ", 100, 300);
-        this.font.draw(renderer, ~~game.data.score, 480, 300);
+        this.font.draw(renderer, localStorage.getItem('spaceinvader_highscore'), 420, 300);
       },
 
     })), 2);
- 
+    
     // change to play state on press Enter or click/tap
     me.input.bindKey(me.input.KEY.ENTER, "enter", true);
     me.input.bindPointer(me.input.mouse.LEFT, me.input.KEY.ENTER);
     this.handler = me.event.subscribe(me.event.KEYDOWN, function (action, keyCode, edge) {        
       if (action === "enter") {
+        updatescore();
+        
+        game.data.score = 0;
+        game.data.bonus = 10;
+        game.data.speed = 1000;
+        game.data.level = 1;
         // play something on tap / enter
         // this will unlock audio on mobile devices
         me.state.change(me.state.MENU);
+        
       }
-      updatescore();
     });
   },
  
